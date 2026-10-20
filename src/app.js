@@ -8,3 +8,4 @@ app.use('/api/health', healthRoutes);
 
 module.exports = app;
 
+console.log("bashar");
