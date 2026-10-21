@@ -8,26 +8,26 @@ if (!seedPassword) {
 }
 
 const patients = [
-  ['Demo', 'Patient01', 'DEMO-PAT-001', '+970000000001'],
-  ['Demo', 'Patient02', 'DEMO-PAT-002', '+970000000002'],
-  ['Demo', 'Patient03', 'DEMO-PAT-003', '+970000000003'],
-  ['Demo', 'Patient04', 'DEMO-PAT-004', '+970000000004'],
-  ['Demo', 'Patient05', 'DEMO-PAT-005', '+970000000005'],
-  ['Demo', 'Patient06', 'DEMO-PAT-006', '+970000000006'],
-  ['Demo', 'Patient07', 'DEMO-PAT-007', '+970000000007'],
-  ['Demo', 'Patient08', 'DEMO-PAT-008', '+970000000008'],
-  ['Demo', 'Patient09', 'DEMO-PAT-009', '+970000000009'],
-  ['Demo', 'Patient10', 'DEMO-PAT-010', '+970000000010'],
-  ['Demo', 'Patient11', 'DEMO-PAT-011', '+970000000011'],
-  ['Demo', 'Patient12', 'DEMO-PAT-012', '+970000000012'],
-  ['Demo', 'Patient13', 'DEMO-PAT-013', '+970000000013'],
-  ['Demo', 'Patient14', 'DEMO-PAT-014', '+970000000014'],
-  ['Demo', 'Patient15', 'DEMO-PAT-015', '+970000000015'],
-  ['Demo', 'Patient16', 'DEMO-PAT-016', '+970000000016'],
-  ['Demo', 'Patient17', 'DEMO-PAT-017', '+970000000017'],
-  ['Demo', 'Patient18', 'DEMO-PAT-018', '+970000000018'],
-  ['Demo', 'Patient19', 'DEMO-PAT-019', '+970000000019'],
-  ['Demo', 'Patient20', 'DEMO-PAT-020', '+970000000020'],
+  ['Demo', 'Patient01', 'DEMO-PAT-001', '+970000000001', 'male'],
+  ['Demo', 'Patient02', 'DEMO-PAT-002', '+970000000002', 'female'],
+  ['Demo', 'Patient03', 'DEMO-PAT-003', '+970000000003', 'male'],
+  ['Demo', 'Patient04', 'DEMO-PAT-004', '+970000000004', 'male'],
+  ['Demo', 'Patient05', 'DEMO-PAT-005', '+970000000005', 'female'],
+  ['Demo', 'Patient06', 'DEMO-PAT-006', '+970000000006', 'male'],
+  ['Demo', 'Patient07', 'DEMO-PAT-007', '+970000000007', 'female'],
+  ['Demo', 'Patient08', 'DEMO-PAT-008', '+970000000008', 'female'],
+  ['Demo', 'Patient09', 'DEMO-PAT-009', '+970000000009', 'male'],
+  ['Demo', 'Patient10', 'DEMO-PAT-010', '+970000000010', 'male'],
+  ['Demo', 'Patient11', 'DEMO-PAT-011', '+970000000011', 'female'],
+  ['Demo', 'Patient12', 'DEMO-PAT-012', '+970000000012', 'male'],
+  ['Demo', 'Patient13', 'DEMO-PAT-013', '+970000000013', 'female'],
+  ['Demo', 'Patient14', 'DEMO-PAT-014', '+970000000014', 'female'],
+  ['Demo', 'Patient15', 'DEMO-PAT-015', '+970000000015', 'male'],
+  ['Demo', 'Patient16', 'DEMO-PAT-016', '+970000000016', 'male'],
+  ['Demo', 'Patient17', 'DEMO-PAT-017', '+970000000017', 'female'],
+  ['Demo', 'Patient18', 'DEMO-PAT-018', '+970000000018', 'male'],
+  ['Demo', 'Patient19', 'DEMO-PAT-019', '+970000000019', 'female'],
+  ['Demo', 'Patient20', 'DEMO-PAT-020', '+970000000020', 'female'],
 ];
 
 async function ensureUser(client, user, passwordHash) {
@@ -195,9 +195,10 @@ async function seed() {
           first_name,
           last_name,
           national_id_number,
-          phone_number
+          phone_number,
+          gender
         )
-        VALUES ($1, $2, $3, $4)
+        VALUES ($1, $2, $3, $4, $5)
         ON CONFLICT (national_id_number) DO NOTHING`,
         patient,
       );
