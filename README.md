@@ -99,3 +99,78 @@ See [docs/CONVENTIONS.md](docs/CONVENTIONS.md) for architectural conventions, la
 ## Health Check
 
 `GET /api/health` -> `200 { success: true, data: { status: 'ok' } }`
+
+## Local Database Setup
+
+### Prerequisites
+
+- Node.js (version 20.6 or later)
+- PostgreSQL installed and running
+- Git
+
+### 1. Install Dependencies
+
+```bash
+npm install
+```
+
+### 2. Configure Environment Variables
+
+Copy `.env.example` to `.env`:
+
+**Windows PowerShell:**
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Update the values in `.env` to match your local environment.
+
+- `DATABASE_URL`: PostgreSQL connection URL for your local development database.
+- `JWT_SECRET`: A random secret of at least 32 characters.
+- `COOKIE_SECURE`: Set to `false` for local HTTP development.
+- `CLIENT_ORIGIN`: The local frontend URL.
+- `SEED_PASSWORD`: A local demo password used for seeded accounts.
+
+**Do not commit `.env` or share real secrets.**
+
+### 3. Create the Development Database
+
+```powershell
+psql -U postgres -h localhost -p 5432 -c "CREATE DATABASE clinic_dev;"
+```
+
+If the database already exists, skip this step.
+
+### 4. Initialize the Database Schema
+
+```powershell
+psql -U postgres -h localhost -p 5432 -d clinic_dev -f src/db/schema.sql
+```
+
+### 5. Seed Development Data
+
+```bash
+npm run seed
+```
+
+The seed script creates demo data, including:
+
+- One clinic owner
+- Two doctors
+- Doctor working hours
+- Twenty demo patients
+
+The seeded owner and doctor accounts use the email addresses below and share the password configured in `SEED_PASSWORD`:
+
+- `owner@clinic.example.test`
+- `doctor1@clinic.example.test`
+- `doctor2@clinic.example.test`
+
+These accounts are for local development only.
+
+### Notes
+
+- Each team member should use their own local `.env` file and development database.
+- Run the schema setup before running the seed script.
+- The seed script can be run repeatedly without duplicating the same demo records in a fresh development database.
