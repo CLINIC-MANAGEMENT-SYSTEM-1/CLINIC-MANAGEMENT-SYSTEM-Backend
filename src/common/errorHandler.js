@@ -12,11 +12,9 @@ const CONSTRAINT_ERRORS = {
   },
 };
 
-
 function notFoundHandler(req, res) {
   return sendError(res, 404, 'NOT_FOUND', 'Route not found');
 }
-
 
 function errorHandler(err, req, res, _next) {
   if (res.headersSent) {
