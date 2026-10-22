@@ -99,3 +99,91 @@ See [docs/CONVENTIONS.md](docs/CONVENTIONS.md) for architectural conventions, la
 ## Health Check
 
 `GET /api/health` -> `200 { success: true, data: { status: 'ok' } }`
+
+## Local Database Setup
+
+### Prerequisites
+
+- Node.js 20.6 or later
+- PostgreSQL 16 or later
+- Git
+
+### 1. Install Dependencies
+
+```bash
+npm install
+```
+
+### 2. Configure Environment Variables
+
+Copy `.env.example` to `.env`.
+
+**Windows PowerShell:**
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Update the values in `.env` for your local environment:
+
+- `DATABASE_URL`: PostgreSQL connection URL for your local development database.
+- `JWT_SECRET`: A random secret of at least 32 characters.
+- `COOKIE_SECURE`: Set to `false` for local HTTP development.
+- `CLIENT_ORIGIN`: The local frontend URL.
+- `SEED_PASSWORD`: A local demo password used by the seed script.
+
+**Do not commit `.env` or share real secrets.**
+
+### 3. Create the Development Database
+
+```powershell
+psql -U postgres -h localhost -p 5432 -c "CREATE DATABASE clinic_dev;"
+```
+
+If the database already exists, skip this step.
+
+Make sure `DATABASE_URL` in `.env` points to `clinic_dev`.
+
+### 4. Initialize the Schema and Start the Server
+
+```bash
+npm run dev
+```
+
+On startup, the server reads and executes `src/db/schema.sql` before listening on the configured port. The schema creates missing tables, types, constraints, and indexes.
+
+A successful startup prints messages confirming database initialization and the server port.
+
+**Important:** This setup initializes a new development database. `CREATE TABLE IF NOT EXISTS` does not update existing tables when the schema changes. Schema changes to existing databases may require explicit SQL changes or a migration strategy.
+
+### 5. Seed Development Data (Optional)
+
+In a separate terminal, from the project root, run:
+
+```bash
+npm run seed
+```
+
+The seed script creates demo data, including:
+
+- One clinic owner
+- One clinic
+- Two doctors
+- Doctor working hours
+- Twenty demo patients
+
+The seeded owner and doctor accounts use the following email addresses and share the password configured in `SEED_PASSWORD`:
+
+- `owner@clinic.example.test`
+- `doctor1@clinic.example.test`
+- `doctor2@clinic.example.test`
+
+These accounts are for local development only. Do not use demo credentials in production.
+
+### Notes
+
+- Each team member should use their own local `.env` file and development database.
+- The server initializes the schema automatically on startup; running `src/db/schema.sql` manually is not required for a fresh development setup.
+- Run the seed script only when demo data is needed.
+- The seed script uses conflict handling to avoid duplicating records protected by its conflict targets; it does not update existing demo records.
+- Never commit `.env`, database backups, or real secrets.

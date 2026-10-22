@@ -7,12 +7,14 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon --env-file=.env src/server.js",
+    "seed": "node --env-file=.env src/db/seed.js",
     "test": "jest",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "express": "^4.21.2",
     "pg": "^8.13.3",
     "zod": "^3.24.2"
