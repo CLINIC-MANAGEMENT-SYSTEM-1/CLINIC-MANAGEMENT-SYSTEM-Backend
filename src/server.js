@@ -1,4 +1,3 @@
-
 const env = require('./config/env');
 const app = require('./app');
 const initDb = require('./db/init');
